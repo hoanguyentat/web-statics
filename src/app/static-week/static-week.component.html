@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="form-group">
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-lg-7">
+      <div class="panel panel-primary">
+          <div class="row">
+            <div class="col-xs-12" style="text-align: center;">
+              <h4>Biểu đồ</h4>
+            </div>
+          </div>
+          <div class="panel-body">
+              <div style="width: 100%;">
+                  <canvas
+                      baseChart
+                      [chartType]="'line'"
+                      [datasets]="chartData"
+                      [labels]="chartLabels"
+                      [options]="chartOptions"
+                      [legend]="true"
+                      (chartClick)="onChartClick($event)">
+                  </canvas>
+                </div>
+          </div>
+      </div>
+    </div>
+</div>

@@ -8,5 +8,5 @@ import { ChartsModule } from 'ng2-charts';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	title = 'app';
+  title = 'app';
 }

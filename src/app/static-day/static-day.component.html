@@ -3,11 +3,14 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12 col-lg-7">
+		<div class="col-xs-12 col-lg-9">
 			<div class="panel">
 				<div class="row">
 					<div class="col-xs-12">
-							<div style="text-align: center;"><h4>Bảng thống kê dữ liệu theo ngày</h4></div>
+							<div style="text-align: center;">
+								<h4>Bảng thống kê dữ liệu theo ngày</h4>
+								 <!-- {{campaignsDetail}} -->
+							</div>
 					</div>
 				</div>
 				<div class="panel-body">
@@ -23,20 +26,21 @@
 							 </tr>
 						 </thead>
 						 <tbody>
-							 <tr>
-								 <td>f9952c55-c785-472f-93f3-0802742463a9</td>	
-								 <td>4</td>
+							 <tr *ngFor='let key of arrayOfKeys'>
+								 <td>{{key}}</td>	
+								 <td></td>
 								 <td>0</td>
-								 <td>4</td>
-								 <td>4</td>
 								 <td>0</td>
+								 <td>0</td>
+								 <td>{{campaignsDetail[key]}}</td>
 							 </tr>
 						 </tbody>
 					 </table>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-lg-5">
-				<dp-date-picker [(ngModel)] = "selectedDate" (click) = "chooseDate()"></dp-date-picker>
+		<div class="col-xs-12 col-lg-3">
+			<label>Choose date: </label>
+			<dp-date-picker class="form-control" [(ngModel)] = "selectedDate" (click) = "chooseDate()"></dp-date-picker>
 		</div>
 	</div>

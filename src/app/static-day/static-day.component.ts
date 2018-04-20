@@ -14,16 +14,21 @@ export class StaticDayComponent implements OnInit {
   constructor(private campaignService: CampaignsService) { }
 
   ngOnInit() {
-    const today = new Date();
-    let dateTimeSplit = today.toISOString().slice(0, 10).split('-');
-    console.log(dateTimeSplit);
-    let url = 'assets/data/sent/' + dateTimeSplit[0] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[2] + '.json';
+    var todayTimeStamp = +new Date; // Unix timestamp in milliseconds
+    var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    var diff = todayTimeStamp - oneDayTimeStamp;
+    var yesterdayDate = new Date(diff);
+
+    let dateTimeSplit = yesterdayDate.toISOString().slice(0, 10).split('-');
+    this.selectedDate = dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0] 
+    var yesterdayDateConvert = dateTimeSplit[0] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[2];
+    let url = 'assets/data/sent/' + yesterdayDateConvert + '.json';
     this.campaignService.getCampaignDetails(url)
       .subscribe(data => {
         this.campaignsDetail = data;
-        console.log(data);
+        // console.log(data);
         this.arrayOfKeys = Object.keys(this.campaignsDetail);
-        console.log(this.arrayOfKeys);
+        // console.log(this.arrayOfKeys);
       });
   }
 
@@ -42,15 +47,22 @@ export class StaticDayComponent implements OnInit {
       return false;
     }
     // tslint:disable-next-line:prefer-const
-    let dateTimeSplit = this.selectedDate.split('-');
-    console.log(dateTimeSplit);
-    let url = 'assets/data/sent/' + dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0] + '.json';
+    try {
+      var dateTimeSplit = this.selectedDate.split('-');
+      // console.log(dateTimeSplit);
+      var url = 'assets/data/sent/' + dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0] + '.json';
+    } catch (error) {
+      console.log(error)
+      url = "";
+    }
+    
+
     this.campaignService.getCampaignDetails(url)
       .subscribe(data => {
         this.campaignsDetail = data;
-        console.log(data);
+        // console.log(data);
         this.arrayOfKeys = Object.keys(this.campaignsDetail);
-        console.log(this.arrayOfKeys);
+        // console.log(this.arrayOfKeys);
       });
   }
 }

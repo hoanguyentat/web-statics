@@ -1,12 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+
 @Injectable()
 export class CampaignsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient, private http: Http) { }
   url_campaigns = 'assets/data/sent/2018-04-17.json';
 
   getCampaignDetails(url) {
-    return this.http.get(url);
+    return this.httpClient.get(url);
+  }
+
+  extractData(res: Response) {
+
+    let csvData = res['_body'] || '';
+    let allTextLines = csvData.split(/\r\n|\n/);
+    let headers = allTextLines[0].split(',');
+    let lines = [];
+
+    for ( let i = 0; i < allTextLines.length; i++) {
+        let data = allTextLines[i].split(',');
+        if (data.length == headers.length) {
+            let tarr = [];
+            for ( let j = 0; j < headers.length; j++) {
+                tarr.push(data[j]);
+            }
+            lines.push(tarr);
+        }
+    }
+    return lines;
+  }
+
+  handleError (error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg);
+    return errMsg;
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Http, Response } from '@angular/http';
+import { CampaignsService } from '../campaigns.service'
 
 @Component({
   selector: 'app-static-week',
@@ -13,7 +16,49 @@ export class StaticWeekComponent implements OnInit {
 			text: 'Biểu đồ thể hiện tổng lượng campaign theo từng ngày'
 		},
 		responsive: true
-	}
+  }
+  
+  dataWeek = []
+  // chartLabels = [];
+  getStaticsWeek(): any {
+    let url = 'assets/data/statics/static_day_2018_04_12.csv';
+    this.http.get(url).subscribe(
+      data => {
+        this.dataWeek = this.campaignService.extractData(data);
+        console.log(this.dataWeek);
+        let test = this.drawChart(this.dataWeek)
+        console.log(test);
+        // this.chartLabels = test[0]
+        // this.chartLabels = this.dataWeek[0];
+
+
+      },
+      error => {
+        this.dataWeek = this.campaignService.handleError(error)
+      }
+    )
+  };
+
+
+  drawChart(data) {
+    console.log(data[0])
+    let dataChart = []
+    for (let i = 0; i < data[0].length; i++ ){
+      let data_one = []
+      let dic = { 
+        data: [],
+        label: '',
+        fill: false
+      }
+      for (let j = 1; j < data.length; j++){
+        data_one.push(data[j][i])
+      }
+      dic.data = data_one;
+      dic.label = data[i][0]
+      dataChart.push(dic);
+    }
+    return [data[0], dataChart];
+  }
 
   chartData = [
 		{ 
@@ -55,9 +100,9 @@ export class StaticWeekComponent implements OnInit {
     console.log(event);
 	}
 
-  constructor() { }
+  constructor(private httpClient: HttpClient, private http: Http, private campaignService: CampaignsService) { }
 
   ngOnInit() {
+    this.getStaticsWeek();
   }
-
 }

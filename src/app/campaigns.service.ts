@@ -15,7 +15,6 @@ export class CampaignsService {
   }
 
   extractData(res: Response) {
-
     let csvData = res['_body'] || '';
     let allTextLines = csvData.split(/\r\n|\n/);
     let headers = allTextLines[0].split(',');
@@ -32,6 +31,23 @@ export class CampaignsService {
         }
     }
     return lines;
+  }
+  
+
+  getSumDay(data) {
+    let dataOneDay = this.extractData(data);
+    // console.log(dataOneDay.length)
+    let sumDay = [dataOneDay.length]
+    for (let i = 2; i < dataOneDay[0].length; i++) {
+      // console.log("run in i: " + i);
+      let sum = 0;
+      for (let j = 1; j < dataOneDay.length; j++) {
+        // console.log(i, j)
+        sum += parseInt(dataOneDay[j][i]);
+      }
+      sumDay.push(sum);
+    }
+    return sumDay;
   }
 
   handleError (error: any) {

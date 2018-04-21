@@ -104,5 +104,8 @@ export class StaticWeekComponent implements OnInit {
 
   ngOnInit() {
     this.getStaticsWeek();
+    var todayTimeStamp = +new Date; // Unix timestamp in milliseconds
+    var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    var onWeekBefore = [todayTimeStamp - 7 * oneDayTimeStamp, todayTimeStamp - 6 * oneDayTimeStamp, todayTimeStamp - 5 * oneDayTimeStamp, todayTimeStamp - 4 * oneDayTimeStamp ,todayTimeStamp - 3 * oneDayTimeStamp ,todayTimeStamp - 2 * oneDayTimeStamp, todayTimeStamp - oneDayTimeStamp]
   }
 }

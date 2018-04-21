@@ -17,22 +17,12 @@
 					 <table class="table table-striped table-hover table-bordered">
 						 <thead>
 							 <tr>
-								 <th>campaign id</th>
-								 <th>ndelivered</th>
-								 <th>ndrop</th>
-								 <th>nopened</th>
-								 <th>nclicked</th>
-								 <th>predicted</th>
+								 <th *ngFor="let x of campaignsDetail[0]">{{x}}</th>
 							 </tr>
 						 </thead>
 						 <tbody>
-							 <tr *ngFor='let key of arrayOfKeys'>
-								 <td>{{key}}</td>	
-								 <td></td>
-								 <td>0</td>
-								 <td>0</td>
-								 <td>0</td>
-								 <td>{{campaignsDetail[key]}}</td>
+							 <tr *ngFor='let campaign of campaignsDetail | slice:1:campaignsDetail.length'>
+								 <td *ngFor="let attr of campaign" >{{attr}}</td>
 							 </tr>
 						 </tbody>
 					 </table>
@@ -41,6 +31,6 @@
 		</div>
 		<div class="col-xs-12 col-lg-3">
 			<label>Choose date: </label>
-			<dp-date-picker class="form-control" [(ngModel)] = "selectedDate" (onChange) = "chooseDate()"></dp-date-picker>
+			<dp-date-picker [(ngModel)] = "selectedDate" (onChange) = "chooseDate()" [config]="datePickerConfig"></dp-date-picker>
 		</div>
 	</div>

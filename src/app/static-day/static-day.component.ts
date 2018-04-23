@@ -42,7 +42,9 @@ export class StaticDayComponent implements OnInit {
   chooseDate() {
     console.log(this.selectedDate);
     let _tmp;
-    if  (this.selectedDate["_i"]) {
+    if (this.selectedDate == undefined){
+      url = '';
+    } else if  (this.selectedDate["_i"]) {
       _tmp = this.selectedDate["_i"];
     } else {
       _tmp = this.selectedDate;
@@ -58,6 +60,9 @@ export class StaticDayComponent implements OnInit {
     this.http.get(url).subscribe(
       data => {
         this.campaignsDetail = this.campaignService.extractData(data);
+        if (this.campaignsDetail.length == 1) {
+          alert("Khong co du lieu...");
+        }
         // console.log(this.campaignsDetail);
       },
       error => {

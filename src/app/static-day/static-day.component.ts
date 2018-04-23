@@ -10,34 +10,26 @@ import { Http, Response} from '@angular/http';
 })
 export class StaticDayComponent implements OnInit {
   selectedDate = '';
+  testDate = '';
   campaignsDetail = [];
   arrayOfKeys = [];
   datePickerConfig = {
     'format': "DD-MM-YYYY"
   }
-  constructor(private campaignService: CampaignsService, private http: Http) { }
+  constructor(private campaignService: CampaignsService, private http: Http) {
+    let todayTimeStamp = +new Date; // Unix timestamp in milliseconds
+    let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    let onDayBefore = todayTimeStamp - oneDayTimeStamp;
+    let yesterdayDate = new Date(onDayBefore);
+    let dateTimeSplit = yesterdayDate.toISOString().slice(0, 10).split('-');
+    let yesterdayDateConvert = dateTimeSplit[0] + '_' + dateTimeSplit[1] + '_' + dateTimeSplit[2];
+    this.selectedDate = dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0];
+   }
 
   ngOnInit() {
-    var todayTimeStamp = +new Date; // Unix timestamp in milliseconds
-    var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
-    var onDayBefore = todayTimeStamp - oneDayTimeStamp;
-    var yesterdayDate = new Date(onDayBefore);
-    let dateTimeSplit = yesterdayDate.toISOString().slice(0, 10).split('-');
-    var yesterdayDateConvert = dateTimeSplit[0] + '_' + dateTimeSplit[1] + '_' + dateTimeSplit[2];
-    this.selectedDate = dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0] 
-    // let url = 'assets/data/statics/static_day_' + yesterdayDateConvert + '.csv';
-    // this.http.get(url).subscribe(
-    //   data => {
-    //     this.campaignsDetail = this.campaignService.extractData(data);
-    //     console.log(this.campaignsDetail);
-    //   },
-    //   error => {
-    //     this.campaignsDetail = this.campaignService.handleError(error)
-    //   }
-    // )
+
   }
 
-  // tslint:disable-next-line:member-ordering
   @ViewChild('dayPicker') datePicker: DatePickerComponent;
   open() {
       this.datePicker.api.open();
@@ -48,6 +40,7 @@ export class StaticDayComponent implements OnInit {
   }
 
   chooseDate() {
+    console.log(this.selectedDate);
     let _tmp;
     if  (this.selectedDate["_i"]) {
       _tmp = this.selectedDate["_i"];
@@ -68,7 +61,8 @@ export class StaticDayComponent implements OnInit {
         // console.log(this.campaignsDetail);
       },
       error => {
-        this.campaignsDetail = this.campaignService.handleError(error)
+        // this.campaignsDetail = this.campaignService.handleError(error)
+        alert("khong co du lieu")
       }
     )
   }

@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
 
 router.get('/static-day', (req, res) => {
     var day = req.query.day;
-    console.log(day)
     Campaign.find({'date': day}, function(err, campaigns){
         if (err) throw err;
         res.send(campaigns)

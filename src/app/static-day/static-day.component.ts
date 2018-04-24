@@ -3,6 +3,7 @@ import { DatePickerComponent } from 'ng2-date-picker';
 import { CampaignsService } from '../campaigns.service';
 import { CampaignDetail } from '../campaign-detail';
 import { Http, Response} from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-static-day',
   templateUrl: './static-day.component.html',
@@ -11,12 +12,12 @@ import { Http, Response} from '@angular/http';
 export class StaticDayComponent implements OnInit {
   selectedDate = '';
   testDate = '';
-  campaignsDetail = [];
+  campaignsDetail: any = [];
   arrayOfKeys = [];
   datePickerConfig = {
     'format': "DD-MM-YYYY"
   }
-  constructor(private campaignService: CampaignsService, private http: Http) {
+  constructor(private campaignService: CampaignsService, private http: Http, private httpClient: HttpClient) {
     let todayTimeStamp = +new Date; // Unix timestamp in milliseconds
     let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
     let onDayBefore = todayTimeStamp - oneDayTimeStamp;
@@ -40,7 +41,7 @@ export class StaticDayComponent implements OnInit {
   }
 
   chooseDate() {
-    console.log(this.selectedDate);
+    // console.log(this.selectedDate);
     let _tmp;
     if (this.selectedDate == undefined){
       url = '';
@@ -52,18 +53,17 @@ export class StaticDayComponent implements OnInit {
     // console.log(_tmp)
     try {
       var dateTimeSplit = _tmp.split('-');
-      var url = 'assets/data/statics/static_day_' + dateTimeSplit[2] + '_' + dateTimeSplit[1] + '_' + dateTimeSplit[0] + '.csv';
+      var url = this.campaignService.host + 'api/static-day?day=' + dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0];
     } catch (error) {
-      url = "assets/data/statics/static_day_2018_04_20.csv";
+      url = this.campaignService.host + 'api/static-day?day=' + "2018-04-23";
     }
     // console.log(url)
-    this.http.get(url).subscribe(
+    this.httpClient.get(url).subscribe(
       data => {
-        this.campaignsDetail = this.campaignService.extractData(data);
+        this.campaignsDetail = data;
         if (this.campaignsDetail.length == 1) {
           alert("Khong co du lieu...");
         }
-        // console.log(this.campaignsDetail);
       },
       error => {
         // this.campaignsDetail = this.campaignService.handleError(error)

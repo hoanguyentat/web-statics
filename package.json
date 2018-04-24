@@ -29,6 +29,8 @@
     "core-js": "^2.4.1",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
+    "mongodb": "^3.0.7",
+    "mongoose": "^5.0.16",
     "ng2-charts": "^1.6.0",
     "ng2-date-picker": "^2.9.0",
     "npm": "^5.8.0",

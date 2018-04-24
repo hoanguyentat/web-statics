@@ -1,13 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const Campaign = require('../models/Campaigns');
+
 
 router.get('/', (req, res) => {
     res.send('app work');
 })
 
-router.post('/static-day', (req, res) => {
-    res.send('static day work')
+router.get('/static-day', (req, res) => {
+    var day = req.query.day;
+    console.log(day)
+    Campaign.find({'date': day}, function(err, campaigns){
+        if (err) throw err;
+        res.send(campaigns)
+    })
 })
 
 router.get('/static-week', (req, res) => {

@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class CampaignsService {
+  host = "http://localhost:3000/";
 
   constructor(private httpClient: HttpClient, private http: Http) { }
   url_campaigns = 'assets/data/sent/2018-04-17.json';

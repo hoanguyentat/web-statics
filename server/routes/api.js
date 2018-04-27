@@ -17,6 +17,37 @@ router.get('/static-day', (req, res) => {
 })
 
 router.get('/static-week', (req, res) => {
+    fromDate = req.query.from_date;
+    toDate = req.query.to_date;
+    Campaign.find({'date' : {
+        '$gte': fromDate,
+        '$lte': toDate
+        }
+    }, function(err, campaigns){
+        if (err) throw err;
+        // console.log(campaigns)
+        data = {}
+        for(let i = 0; i < campaigns.length; i++){
+            day = campaigns[i]["date"]
+            if(!data.hasOwnProperty(day)){
+                data[day] = {
+                    predict: 0,
+                    ndrop: 0,
+                    ndelivered: 0,
+                    nopened: 0,
+                    nclicked: 0,
+                    cid: 0
+                }
+            }
+            data[day]["predict"] += campaigns[i]["predict"];
+            data[day]["ndrop"] += campaigns[i]["ndrop"];
+            data[day]["ndelivered"] += campaigns[i]["ndelivered"];
+            data[day]["nopened"] += campaigns[i]["nopened"];
+            data[day]["nclicked"] += campaigns[i]["nclicked"];
+            data[day]["cid"] += 1;
+        }
+        console.log(data)
+    });
     let pathData = "./server/data/statics/static_day_";
     let todayTimeStamp = +new Date; // Unix timestamp in milliseconds
     let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
@@ -51,7 +82,7 @@ router.get('/static-week', (req, res) => {
 })
 
 function getSumDay(dataOneDay) {
-    let sumDay = [dataOneDay.length]
+    let sumDay = [dataOneDay.length - 1]
     for (let i = 2; i < dataOneDay[0].length; i++) {
       let sum = 0;
       for (let j = 1; j < dataOneDay.length; j++) {
@@ -63,7 +94,7 @@ function getSumDay(dataOneDay) {
 }
 
 function drawChart(data) {
-    console.log(data)
+    // console.log(data)
     let chartData = []
     for (let i = 0; i < data[0].length; i++ ){
       let data_one = []

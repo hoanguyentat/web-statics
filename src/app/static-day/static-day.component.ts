@@ -50,7 +50,6 @@ export class StaticDayComponent implements OnInit {
     } else {
       _tmp = this.selectedDate;
     }
-    // console.log(_tmp)
     try {
       var dateTimeSplit = _tmp.split('-');
       var url = this.campaignService.host + 'api/static-day?day=' + dateTimeSplit[2] + '-' + dateTimeSplit[1] + '-' + dateTimeSplit[0];
@@ -61,7 +60,7 @@ export class StaticDayComponent implements OnInit {
     this.httpClient.get(url).subscribe(
       data => {
         this.campaignsDetail = data;
-        if (this.campaignsDetail.length == 1) {
+        if (this.campaignsDetail.length <= 1) {
           alert("Khong co du lieu...");
         }
       },

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const configDB = require('./server/config/config').database;
 const mongoose = require('mongoose');
 
+
 mongoose.Promise = global.Promise;
 const mongooseConnection = mongoose.connect(configDB.url).then(() => {
   console.log("Connect successful...")

@@ -19,6 +19,18 @@ router.get('/static-day', (req, res) => {
 router.get('/static-week', (req, res) => {
     fromDate = req.query.from_date;
     toDate = req.query.to_date;
+
+    let unixTimeFrom = +new Date(fromDate);
+    let unixTimeTo = +new Date(toDate);
+    let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    dateLength = (unixTimeTo - unixTimeFrom) / oneDayTimeStamp;
+    dateBefore = []
+    for(let i = dateLength; i >= 1; i--){
+        let dateAgo = new Date(unixTimeTo - i * oneDayTimeStamp);
+        let dateTimeSplit = dateAgo.toISOString().slice(0, 10);
+        dateBefore.push(dateTimeSplit);
+    }    
+    console.log(dateBefore)
     Campaign.find({'date' : {
         '$gte': fromDate,
         '$lte': toDate
@@ -50,7 +62,7 @@ router.get('/static-week', (req, res) => {
     });
     let pathData = "./server/data/statics/static_day_";
     let todayTimeStamp = +new Date; // Unix timestamp in milliseconds
-    let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    // let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
     let oneWeekBefore = [];
     for(let i = 7; i >= 1; i--){
         oneWeekBefore.push(todayTimeStamp - i * oneDayTimeStamp);

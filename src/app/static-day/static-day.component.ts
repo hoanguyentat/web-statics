@@ -10,11 +10,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./static-day.component.css']
 })
 export class StaticDayComponent implements OnInit {
-  selectedDate = '';
-  testDate = '';
-  campaignsDetail: any = [];
-  arrayOfKeys = [];
-  datePickerConfig = {
+  public selectedDate = '';
+  public testDate = '';
+  public campaignsDetail: any = [];
+  public arrayOfKeys = [];
+  public datePickerConfig = {
     'format': "DD-MM-YYYY"
   }
   constructor(private campaignService: CampaignsService, private http: Http, private httpClient: HttpClient) {
@@ -40,7 +40,7 @@ export class StaticDayComponent implements OnInit {
        this.datePicker.api.close();
   }
 
-  chooseDate() {
+  public chooseDate() {
     // console.log(this.selectedDate);
     let _tmp;
     if (this.selectedDate == undefined){
@@ -61,12 +61,12 @@ export class StaticDayComponent implements OnInit {
       data => {
         this.campaignsDetail = data;
         if (this.campaignsDetail.length <= 1) {
-          alert("Khong co du lieu...");
+          alert("Không có dữ liệu...");
         }
       },
       error => {
         // this.campaignsDetail = this.campaignService.handleError(error)
-        alert("khong co du lieu")
+        alert("Không có dữ liệu...")
       }
     )
   }

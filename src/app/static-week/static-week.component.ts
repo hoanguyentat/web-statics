@@ -54,7 +54,7 @@ export class StaticWeekComponent implements OnInit {
   ];
 
   chartLabels = [];
-  getStaticsWeek(): any {
+  public getStaticsWeek(): any {
     let unixToDate = +new Date; // Unix timestamp in milliseconds
     let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
     unixToDate = unixToDate - oneDayTimeStamp;
@@ -76,7 +76,7 @@ export class StaticWeekComponent implements OnInit {
   };
 
 
-  drawChart(data) {
+  public drawChart(data) {
     let chartData = []
     for (let i = 0; i < data[0].length; i++ ){
       let data_one = []
@@ -95,7 +95,7 @@ export class StaticWeekComponent implements OnInit {
     return chartData;
   }
 
-  onChartClick(event) {
+  public onChartClick(event) {
     console.log(event);
 	}
 

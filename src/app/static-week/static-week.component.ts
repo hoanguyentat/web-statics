@@ -54,7 +54,14 @@ export class StaticWeekComponent implements OnInit {
   ];
 
   chartLabels = [];
-  getStaticsWeek(url: string): any {
+  getStaticsWeek(): any {
+    let unixToDate = +new Date; // Unix timestamp in milliseconds
+    let oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    unixToDate = unixToDate - oneDayTimeStamp;
+    let unixFromDate = unixToDate - 7 * oneDayTimeStamp;
+    let fromDate = (new Date(unixFromDate)).toISOString().slice(0, 10)
+    let toDate = (new Date(unixToDate)).toISOString().slice(0, 10)
+    let url = '/api/static-week?from_date=' + fromDate + "&to_date=" + toDate;
     console.log(url);
     this.httpClient.get(url).subscribe(
       data => {
@@ -109,6 +116,6 @@ export class StaticWeekComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.getStaticsWeek('/api/static-week')
+    this.getStaticsWeek()
   }
 }
